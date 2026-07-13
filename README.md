@@ -22,7 +22,9 @@
 
 - [docs/previous-talk-summary.md](docs/previous-talk-summary.md)：前次對話摘要、決策脈絡、Excel 最終整理規格。
 - [docs/excel-requirements.md](docs/excel-requirements.md)：下一版 Excel 需要比較的欄位與建議工作表。
+- [docs/2026-09-25-research-summary.md](docs/2026-09-25-research-summary.md)：只針對 2026-09-25 出發團期的查價、推薦與排除理由。
+- [outputs/rmq-kkj-20260925/台中北九州_2026-09-25行程比較.xlsx](outputs/rmq-kkj-20260925/台中北九州_2026-09-25行程比較.xlsx)：9/25 行程比較活頁簿，含推薦、逐日明細、通路價差與評分規則。
 
-## 下一步
+## 目前結論
 
-依照最終範圍重新搜尋旅行社商品，只保留使用華航 `CI7380 / CI7381`、台中 `RMQ` 往返北九州 `KKJ` 的套裝行程，並產出最終 Excel。
+依個人偏好，9/25 首選為旅遊家 `FUK05260925A`（NT$35,900）；華府 Safari 團 `CIKKJ260925C`（NT$43,900）為偏好山口自然景觀時的替代方案。豪斯登堡團與自由行產品已排除。
