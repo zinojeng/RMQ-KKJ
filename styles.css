@@ -47,6 +47,9 @@ h1 { margin: 10px 0 4px; font-size: clamp(31px, 5vw, 52px); line-height: 1.12; l
 .primary-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 15px; color: #fff; background: var(--forest-dark); border: 1px solid var(--forest-dark); text-decoration: none; font-weight: 750; }
 .primary-link:hover { background: #093c32; }
 .primary-link svg { width: 17px; }
+.decision-actions { display: grid; gap: 7px; }
+.secondary-link { display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: var(--forest-dark); font-size: 11px; font-weight: 800; }
+.secondary-link svg { width: 13px; }
 
 .deep-dive { padding: 56px 0 62px; background: #fff; border-bottom: 1px solid var(--line); }
 .deep-heading { display: grid; grid-template-columns: 1fr minmax(320px, 540px); gap: 32px; align-items: end; margin-bottom: 24px; }
