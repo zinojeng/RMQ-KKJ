@@ -20,7 +20,7 @@
         <span>RMQ</span><i data-lucide="plane"></i><span>KKJ</span>
       </div>
       <h1>9/25 台中直飛北九州</h1>
-      <p>依「不要遊樂園、少自由活動、少自理餐、少購物」重新排序</p>
+      <p>依「不要遊樂園、少自由活動、少購物、少自理餐」重新排序</p>
       <div class="meta-row">
         <span><i data-lucide="calendar-days"></i>2026/09/25 出發</span>
         <span><i data-lucide="clock-3"></i>5 天 4 夜</span>
@@ -33,16 +33,16 @@
     <section class="decision-band" aria-labelledby="decision-title">
       <div class="section-inner decision-grid">
         <div class="decision-copy">
-          <p class="eyebrow">目前最符合</p>
-          <h2 id="decision-title">旅遊家 九州神話秘境 5 日</h2>
-          <p>無自由活動、僅 1 餐自理。免稅店與 LaLaport 集中在同一天，整體負擔比其他團低。</p>
+          <p class="eyebrow">依原始四項條件</p>
+          <h2 id="decision-title">華府 北九州山口 Safari 5 日</h2>
+          <p>沒有自由活動、僅 1 餐自理，購物集中在同一天。Safari 是自然動物園；若連動物園也不想去，改選山富鐵道或宮崎團。</p>
         </div>
         <dl class="decision-stats">
-          <div><dt>售價</dt><dd>NT$35,900</dd></div>
+          <div><dt>售價</dt><dd>NT$43,900</dd></div>
           <div><dt>偏好分數</dt><dd>80</dd></div>
-          <div><dt>可售席次</dt><dd>25</dd></div>
+          <div><dt>主要取捨</dt><dd>動物園</dd></div>
         </dl>
-        <a class="primary-link" href="https://b2b.travelerts.com.tw/EW/GO/GroupDetail.asp?prodCd=FUK05260925A" target="_blank" rel="noreferrer">
+        <a class="primary-link" href="https://www.go100tour.com/products/group/detail/CIKKJ260925C" target="_blank" rel="noreferrer">
           查看旅行社頁面<i data-lucide="external-link"></i>
         </a>
       </div>
@@ -65,6 +65,23 @@
           <div><b>4</b><span>自理餐</span><strong>越少越好</strong></div>
         </div>
 
+        <div class="preference-builder" aria-labelledby="preference-title">
+          <div class="preference-heading">
+            <div><p class="eyebrow">加入個人考量</p><h3 id="preference-title">告訴網站你在意什麼</h3></div>
+            <p>住宿與餐點依公開文案作相對判讀；確切飯店、房型與菜單仍以行前資料為準。</p>
+          </div>
+          <div class="preference-controls">
+            <label><span>每人預算上限</span><select id="budget-limit"><option value="0">不限</option><option value="36000">NT$36,000</option><option value="40000" selected>NT$40,000</option><option value="45000">NT$45,000</option></select></label>
+            <label><span>可接受拉車量</span><select id="drive-tolerance"><option value="low">越少越好</option><option value="medium" selected>中等</option><option value="high">不介意長途移動</option></select></label>
+            <label><span>餐點重視程度</span><select id="meal-priority"><option value="standard">一般</option><option value="high" selected>重視特色餐與含餐完整</option></select></label>
+            <label><span>住宿重視程度</span><select id="stay-priority"><option value="standard">一般</option><option value="quality">重視飯店品質</option><option value="onsen">重視溫泉住宿</option></select></label>
+            <label><span>喜歡的行程節奏</span><select id="pace-preference"><option value="relaxed">較輕鬆</option><option value="balanced" selected>平衡</option><option value="packed">景點密集也可以</option></select></label>
+            <label><span>資訊明確度</span><select id="clarity-priority"><option value="standard">一般</option><option value="high" selected>重視頁面前後一致</option></select></label>
+            <label class="toggle-control"><input id="avoid-animals" type="checkbox"><span>連自然動物園也不要</span></label>
+          </div>
+          <div id="preference-results" class="preference-results" aria-live="polite"></div>
+        </div>
+
         <div class="compare-picker-head">
           <div><h3>勾選要比較的行程</h3><p>可選 1 至 3 家；先取消一間，就能換入其他行程。</p></div>
           <strong id="compare-status" aria-live="polite"></strong>
@@ -72,6 +89,16 @@
         <div id="compare-picker" class="compare-picker"></div>
         <div id="selected-compare" class="selected-compare"></div>
         <p class="method-note"><i data-lucide="info"></i>購物數量包含明確免稅店、商場及商品型工廠／酒造見學；相對移動量依跨縣範圍與每日路線推估，不代表旅行社承諾的實際乘車時間。</p>
+
+        <div class="booking-checklist">
+          <div><p class="eyebrow">報名前再問清楚</p><h3>旅行社頁面通常沒有完整回答的事項</h3></div>
+          <label><input type="checkbox"><span><b>每日實際車程</b><small>最早出發、最晚回飯店，以及單段最長乘車時間</small></span></label>
+          <label><input type="checkbox"><span><b>確切飯店與房型</b><small>是否連泊、床型、房間大小、溫泉是否在館內</small></span></label>
+          <label><input type="checkbox"><span><b>餐標與特殊需求</b><small>餐費預算、吃到飽時間、素食或過敏是否可處理</small></span></label>
+          <label><input type="checkbox"><span><b>團體與巴士條件</b><small>預計人數、巴士座位、是否每天換座與行李空間</small></span></label>
+          <label><input type="checkbox"><span><b>額外費用</b><small>小費、單房差、取消費、保險與自費活動</small></span></label>
+          <label><input type="checkbox"><span><b>最終行程一致性</b><small>頁面文字互相矛盾時，要求旅行社以書面確認</small></span></label>
+        </div>
       </div>
     </section>
 
