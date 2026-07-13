@@ -82,13 +82,61 @@ const compareRows = [
 ];
 
 const compareValue = (trip,key) => tripInsights[trip.id][key] ?? comfortProfiles[trip.id][key];
+const criterionMeta = {
+  verdict:{title:"偏好總判讀",level:"綜合判讀",method:"依遊樂園、自由活動、購物、自理餐四個優先條件，再加入價格、路線與資訊一致性綜合判斷。"},
+  amusement:{title:"遊樂園判讀",level:"公開行程",method:"只要有機械式主題樂園即直接排除；Safari Land 另標示為自然動物園，讓使用者自行決定是否接受。"},
+  freeDetail:{title:"自由活動判讀",level:"公開行程",method:"整日自由活動計 1 日；明確半日自由活動計 0.5 日。一般景點散策不自動視為自由活動。"},
+  shoppingDetail:{title:"購物安排判讀",level:"公開行程",method:"計入免稅店、Outlet、購物中心，以及帶有商品展示或試飲性質的工廠、茶村與酒造。"},
+  mealDetail:{title:"自理餐判讀",level:"公開行程",method:"以每日餐表的『自理』為主；若行程說明與餐表矛盾，直接標示需要旅行社書面確認。"},
+  mealLevelText:{title:"餐點等級判讀",level:"相對判讀",method:"依公開菜單中的特色料理、吃到飽、飯店餐與自理餐比例作相對比較，不代表實際餐標金額或最終菜單。"},
+  lodgingText:{title:"住宿等級判讀",level:"候選資訊",method:"依旅行社列出的候選飯店、溫泉訴求與連泊情況判讀；『或同級』表示最終館別與房型仍未確定。"},
+  driveText:{title:"拉車判讀",level:"相對推估",method:"依五日跨越的縣市、每日景點數與南北跨度做相對推估。公開頁面沒有逐段車程分鐘，因此不呈現虛構的精確時間。"},
+  theme:{title:"行程主題",level:"公開路線",method:"依五日主要景點與體驗歸納，協助分辨自然、神社、鐵道、遊船、海岸或主題園區的比重。"},
+  bestFor:{title:"適合誰",level:"選擇建議",method:"把行程優勢與使用者偏好連結，屬選擇建議而非旅行社保證。"},
+  warning:{title:"最需注意",level:"風險提醒",method:"優先列出最可能造成期待落差的條件，包括自由活動、購物、動物園、拉車與資料矛盾。"}
+};
+
+function criterionFacts(trip,key) {
+  const shoppingDays = trip.days.filter(day => /免稅|LaLaport|商場|酒造|茶村|工廠|Terrace/.test(day));
+  const freeDays = trip.days.filter(day => /自由/.test(day));
+  const amusementDays = trip.days.filter(day => /豪斯登堡|Safari|動物園/.test(day));
+  const basics = [`偏好分數 ${trip.score} 分`, `售價 ${money(trip.price)}`, `自由活動 ${trip.free} 日`, `自理餐 ${trip.selfMeals} 餐`, shoppingText(trip)];
+  if (key === "verdict") return basics;
+  if (key === "amusement") return amusementDays.length ? amusementDays : ["五日路線未列機械式主題樂園或動物園。"];
+  if (key === "freeDetail") return freeDays.length ? freeDays : ["五日路線未列半日或整日自由活動。"];
+  if (key === "shoppingDetail") return shoppingDays.length ? shoppingDays : ["五日路線未列明確購物或商品型見學站。"];
+  if (key === "mealDetail" || key === "mealLevelText") return [`公開統計：自理餐 ${trip.selfMeals} 餐。`,tripInsights[trip.id].mealDetail];
+  if (key === "lodgingText") return [comfortProfiles[trip.id].lodgingText,"最終飯店、房型、是否連泊與溫泉設施需以行前確認單為準。"];
+  if (key === "driveText") return [`相對移動級別：${["","低","中","高"][comfortProfiles[trip.id].drive]}。`,...trip.days.map((day,index)=>`第 ${index+1} 天：${day}`)];
+  if (key === "theme") return [trip.subtitle,...trip.days.map((day,index)=>`第 ${index+1} 天：${day}`)];
+  if (key === "bestFor" || key === "warning") return basics;
+  return basics;
+}
+
+function criterionButton(trip,key) {
+  const value = compareValue(trip,key);
+  return `<button class="criterion-cell" type="button" data-criterion="${key}" data-trip="${trip.id}" title="點擊查看完整判讀依據"><span>${value}</span><small><i data-lucide="circle-help"></i>查看完整依據</small></button>`;
+}
+
+function openCriterionDialog(tripId,key) {
+  const trip = trips.find(item => item.id === tripId);
+  const meta = criterionMeta[key];
+  const facts = criterionFacts(trip,key);
+  const dialog = document.querySelector("#criterion-dialog");
+  document.querySelector("#criterion-dialog-trip").textContent = `${trip.agency}｜${trip.name}`;
+  document.querySelector("#criterion-dialog-title").textContent = meta.title;
+  document.querySelector("#criterion-dialog-body").innerHTML = `<div class="evidence-level"><span>${meta.level}</span><b>${trip.code}</b></div><section><h3>目前判讀</h3><p class="dialog-judgement">${compareValue(trip,key)}</p></section><section><h3>實際內容與判讀依據</h3><ul class="evidence-list">${facts.map(fact=>`<li>${fact}</li>`).join("")}</ul></section><section><h3>判讀方式與限制</h3><p>${meta.method}</p></section><a class="primary-link dialog-source" href="${trip.source}" target="_blank" rel="noreferrer">查看旅行社原始頁面<i data-lucide="external-link"></i></a>`;
+  if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open","");
+  if (window.lucide) window.lucide.createIcons();
+}
 
 function renderSelectedCompare() {
   const selected = trips.filter(trip => state.compare.has(trip.id));
   const head = selected.map(trip => `<th><span class="status status--${statusClass(trip.level)}">${trip.label}</span><strong>${trip.agency}</strong><small>${trip.name}</small><b>${money(trip.price)}・${trip.score} 分</b></th>`).join("");
-  const rows = compareRows.map(([label,key]) => `<tr><th>${label}</th>${selected.map(trip => `<td>${compareValue(trip,key)}</td>`).join("")}</tr>`).join("");
-  const mobile = selected.map(trip => `<article class="selected-card"><header><span class="status status--${statusClass(trip.level)}">${trip.label}</span><div><h3>${trip.agency}｜${trip.name}</h3><p>${money(trip.price)}・${trip.score} 分</p></div></header><dl>${compareRows.map(([label,key]) => `<div><dt>${label}</dt><dd>${compareValue(trip,key)}</dd></div>`).join("")}</dl></article>`).join("");
+  const rows = compareRows.map(([label,key]) => `<tr><th>${label}</th>${selected.map(trip => `<td>${criterionButton(trip,key)}</td>`).join("")}</tr>`).join("");
+  const mobile = selected.map(trip => `<article class="selected-card"><header><span class="status status--${statusClass(trip.level)}">${trip.label}</span><div><h3>${trip.agency}｜${trip.name}</h3><p>${money(trip.price)}・${trip.score} 分</p></div></header><dl>${compareRows.map(([label,key]) => `<div><dt>${label}</dt><dd>${criterionButton(trip,key)}</dd></div>`).join("")}</dl></article>`).join("");
   document.querySelector("#selected-compare").innerHTML = `<div class="selected-table-shell"><table class="selected-table cols-${selected.length}"><thead><tr><th>詳細差異</th>${head}</tr></thead><tbody>${rows}</tbody></table></div><div class="selected-mobile">${mobile}</div>`;
+  document.querySelectorAll("[data-criterion]").forEach(button => button.addEventListener("click",()=>openCriterionDialog(button.dataset.trip,button.dataset.criterion)));
 }
 
 function preferenceSettings() {
@@ -184,4 +232,6 @@ document.querySelectorAll("[data-filter]").forEach(button => button.addEventList
 document.querySelector("#no-free").addEventListener("change", event => { state.noFree = event.target.checked; render(); });
 document.querySelector("#sort-select").addEventListener("change", event => { state.sort = event.target.value; render(); });
 document.querySelectorAll("#budget-limit,#drive-tolerance,#meal-priority,#stay-priority,#pace-preference,#clarity-priority,#avoid-animals").forEach(control => control.addEventListener("change", renderPreferenceResults));
+document.querySelector("#criterion-dialog-close").addEventListener("click",()=>document.querySelector("#criterion-dialog").close());
+document.querySelector("#criterion-dialog").addEventListener("click",event=>{ if(event.target === event.currentTarget) event.currentTarget.close(); });
 window.addEventListener("DOMContentLoaded", render);
