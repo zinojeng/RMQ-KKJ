@@ -183,6 +183,28 @@ h1 { margin: 10px 0 4px; font-size: clamp(31px, 5vw, 52px); line-height: 1.12; l
 .dialog-judgement { color: var(--ink) !important; font-size: 15px !important; font-weight: 650; }
 .evidence-list { margin: 0; padding-left: 20px; color: #4e5b65; font-size: 13px; }
 .evidence-list li { padding: 4px 0; }
+.drive-summary { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 12px; border: 1px solid var(--line); }
+.drive-summary div { padding: 11px 13px; }
+.drive-summary div + div { border-left: 1px solid var(--line); }
+.drive-summary span, .drive-summary strong { display: block; }
+.drive-summary span { color: var(--muted); font-size: 10px; }
+.drive-summary strong { margin-top: 2px; color: var(--forest-dark); font-size: 16px; font-variant-numeric: tabular-nums; }
+.drive-table-shell { overflow-x: auto; border: 1px solid var(--line); }
+.drive-estimate-table { width: 100%; min-width: 700px; border-collapse: collapse; table-layout: fixed; }
+.drive-estimate-table th, .drive-estimate-table td { padding: 9px 10px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #46535c; font-size: 10px; line-height: 1.5; text-align: left; vertical-align: top; }
+.drive-estimate-table tr > :last-child { border-right: 0; }
+.drive-estimate-table tbody tr:last-child > * { border-bottom: 0; }
+.drive-estimate-table thead th { color: var(--ink); background: #eef2f3; font-size: 9px; }
+.drive-estimate-table thead th:first-child, .drive-estimate-table tbody th { width: 36px; }
+.drive-estimate-table thead th:nth-child(2) { width: 25%; }
+.drive-estimate-table thead th:nth-child(3) { width: 17%; }
+.drive-estimate-table thead th:nth-child(4) { width: 19%; }
+.drive-estimate-table tbody th { color: var(--forest-dark); background: #f4f8f6; font-variant-numeric: tabular-nums; }
+.drive-estimate-table .number-cell, .drive-estimate-table .bus-range { font-variant-numeric: tabular-nums; }
+.drive-estimate-table .bus-range { color: var(--ink); font-weight: 750; }
+.drive-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 9px; color: var(--muted); font-size: 9px; }
+.drive-legend b { margin-right: 5px; color: var(--ink); }
+.drive-unavailable { margin-top: 10px !important; padding: 10px 12px; background: #fff8e8; }
 .dialog-source { width: fit-content; }
 .booking-intro { margin: 0 0 18px; padding: 13px 14px; color: #3f514a; background: #eef5f2; border-left: 3px solid var(--forest); font-size: 13px; line-height: 1.65; }
 .booking-dialog-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
@@ -359,6 +381,8 @@ footer { padding: 24px 0; color: #d8e0e3; background: #17212b; }
   .dialog-head { padding: 15px; }
   .dialog-head h2 { font-size: 19px; }
   .dialog-body { padding: 16px; }
+  .drive-summary { grid-template-columns: 1fr; }
+  .drive-summary div + div { border-left: 0; border-top: 1px solid var(--line); }
   .dialog-source { width: 100%; }
   .booking-dialog-grid { grid-template-columns: 1fr; }
   .booking-dialog-grid article { border-right: 0; border-bottom: 1px solid var(--line); }
