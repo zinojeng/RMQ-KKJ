@@ -96,6 +96,40 @@ const criterionMeta = {
   warning:{title:"最需注意",level:"風險提醒",method:"優先列出最可能造成期待落差的條件，包括自由活動、購物、動物園、拉車與資料矛盾。"}
 };
 
+const bookingMeta = {
+  drive:{title:"每日實際車程",intro:"路線看起來順，不代表每天坐車時間短。比較時要把跨縣範圍、景點數量與飯店位置一起看。",questions:["每天預計幾點離開飯店、幾點回飯店？","單段最長車程約幾小時？在哪一天？","途中是否固定安排休息站？長者可否優先安排靠前座位？"]},
+  hotel:{title:"確切飯店與房型",intro:"『或同級』不等於已確認入住。飯店地點、房間大小、床型與溫泉設施都可能改變實際舒適度。",questions:["四晚的確切飯店名稱何時確定？是否有連泊？","雙人房是一大床或兩小床？房間約幾平方公尺？","溫泉是在館內、需接駁，還是只有位於溫泉區？"]},
+  meal:{title:"餐標與特殊需求",intro:"菜名看起來豪華，仍要確認餐標、用餐時間、自理餐位置與特殊飲食處理方式。",questions:["各特色餐的餐標約多少日圓？吃到飽可用餐多久？","自理餐發生在哪一天、哪一區？附近是否容易找到座位？","素食、過敏、低鹽或不吃生食可以替換嗎？需要何時提出？"]},
+  bus:{title:"團體與巴士條件",intro:"團體人數與巴士空間會影響上下車速度、座位舒適度與每天集合等待時間。",questions:["目前報名人數、預計總團員與最低成團人數是多少？","使用幾人座巴士？是否每天輪換座位？","大型行李能否全程放行李艙？車上是否有充電或 Wi-Fi？"]},
+  cost:{title:"額外費用",intro:"團費之外常見小費、單房差、取消費、私人保險與自費活動，應用『整趟總成本』比較。",questions:["領隊導遊小費總額、單房差與訂金各是多少？","取消或更名的費用如何依日期計算？","是否另有自費活動、現場門票、行李或保險費用？"]},
+  consistency:{title:"最終行程一致性",intro:"同一頁的標題、每日說明與餐表可能不一致。下訂前應要求以可保存的文字確認最終版本。",questions:["自由活動、自理餐、購物站的最終數量各是多少？","若網頁不同區塊寫法矛盾，以哪一份文件為準？","景點或餐食替換時，旅行社會如何通知與退差額？"]}
+};
+
+const groupInfo = {T01:"最低成團 16 人；公開頁面列訂金 NT$10,000。",T02:"最低成團 16 人；巴士座位與最終團員數未公開。",T03:"最低成團 16 人；巴士座位與最終團員數未公開。",T04:"最低成團 16 人；巴士座位與最終團員數未公開。"};
+const extraCostInfo = {T01:"公開頁面列小費每人每日 NT$300，5 天合計約 NT$1,500；其他單房差與取消費仍需確認。"};
+
+function bookingComparison(trip,key) {
+  const profile = comfortProfiles[trip.id];
+  if (key === "drive") return {known:profile.driveText,missing:"尚缺每日出發／回飯店時間與各段實際分鐘。",level:"相對推估"};
+  if (key === "hotel") return {known:profile.lodgingText,missing:"尚缺最終館別、房型、房間大小、連泊與館內溫泉確認。",level:"候選資訊"};
+  if (key === "meal") return {known:`${profile.mealLevelText} ${tripInsights[trip.id].mealDetail}`,missing:"尚缺正式餐標、用餐時間與特殊飲食替換方式。",level:"公開餐表"};
+  if (key === "bus") return {known:groupInfo[trip.id] || "目前比較資料未取得最低成團人數或最終團員數。",missing:"尚缺巴士座位數、輪座規則、行李空間與車上設備。",level:"待旅行社確認"};
+  if (key === "cost") return {known:`目前團費 ${money(trip.price)}。${extraCostInfo[trip.id] || "其他公開費用尚未完整整理。"}`,missing:"尚缺單房差、小費總額、取消／更名費與自費項目總成本。",level:"部分公開"};
+  const clarity = profile.clarity === 3 ? "目前未發現明顯前後矛盾，但最終版本仍可能調整。" : profile.clarity === 2 ? "公開資訊完整度中等，仍有部分細節需確認。" : "已發現公開頁面前後不一致：旅遊家第 5 天午餐說明與餐表矛盾。";
+  return {known:clarity,missing:"尚缺旅行社書面確認的最終行程、餐表、飯店與購物站版本。",level:profile.clarity === 1 ? "已有矛盾" : "需最終確認"};
+}
+
+function openBookingDialog(key) {
+  const meta = bookingMeta[key];
+  const selected = trips.filter(trip => state.compare.has(trip.id));
+  const dialog = document.querySelector("#criterion-dialog");
+  document.querySelector("#criterion-dialog-trip").textContent = `報名前確認｜目前比較 ${selected.length} 個行程`;
+  document.querySelector("#criterion-dialog-title").textContent = meta.title;
+  document.querySelector("#criterion-dialog-body").innerHTML = `<p class="booking-intro">${meta.intro}</p><section><h3>目前勾選行程的已知資訊與缺口</h3><div class="booking-dialog-grid">${selected.map(trip=>{const item=bookingComparison(trip,key);return `<article><header><span>${item.level}</span><strong>${trip.agency}</strong><small>${trip.name}</small></header><div><b>目前知道</b><p>${item.known}</p></div><div class="missing-info"><b>還要確認</b><p>${item.missing}</p></div><a href="${trip.source}" target="_blank" rel="noreferrer">原始頁面<i data-lucide="external-link"></i></a></article>`;}).join("")}</div></section><section><h3>可以直接問旅行社</h3><ol class="question-list">${meta.questions.map(question=>`<li>${question}</li>`).join("")}</ol></section><p class="dialog-footnote">勾選框只用來標記自己是否已完成確認；重新整理頁面後不會保存。</p>`;
+  if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open","");
+  if (window.lucide) window.lucide.createIcons();
+}
+
 function criterionFacts(trip,key) {
   const shoppingDays = trip.days.filter(day => /免稅|LaLaport|商場|酒造|茶村|工廠|Terrace/.test(day));
   const freeDays = trip.days.filter(day => /自由/.test(day));
@@ -232,6 +266,7 @@ document.querySelectorAll("[data-filter]").forEach(button => button.addEventList
 document.querySelector("#no-free").addEventListener("change", event => { state.noFree = event.target.checked; render(); });
 document.querySelector("#sort-select").addEventListener("change", event => { state.sort = event.target.value; render(); });
 document.querySelectorAll("#budget-limit,#drive-tolerance,#meal-priority,#stay-priority,#pace-preference,#clarity-priority,#avoid-animals").forEach(control => control.addEventListener("change", renderPreferenceResults));
+document.querySelectorAll("[data-booking-detail]").forEach(button => button.addEventListener("click",()=>openBookingDialog(button.dataset.bookingDetail)));
 document.querySelector("#criterion-dialog-close").addEventListener("click",()=>document.querySelector("#criterion-dialog").close());
 document.querySelector("#criterion-dialog").addEventListener("click",event=>{ if(event.target === event.currentTarget) event.currentTarget.close(); });
 window.addEventListener("DOMContentLoaded", render);
