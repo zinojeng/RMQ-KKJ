@@ -2,3 +2,5 @@ node_modules
 outputs/**/*.png
 outputs/**/*.ndjson
 outputs/rmq-kkj-20260713/
+output/playwright/
+.playwright-cli/

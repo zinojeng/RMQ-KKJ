@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2026年9月25日台中直飛北九州旅行團比較，依自由活動、自理餐、購物與遊樂園偏好整理。">
+  <title>9/25 台中直飛北九州行程比較</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%23176b58%22/><path d=%22M15 34h34M31 18l18 16-18 16%22 fill=%22none%22 stroke=%22white%22 stroke-width=%226%22 stroke-linecap=%22square%22/></svg>">
+  <link rel="preconnect" href="https://res-2.cloudinary.com">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead__image" role="img" aria-label="高千穗峽谷與真名井瀑布"></div>
+    <div class="masthead__shade"></div>
+    <div class="masthead__inner">
+      <div class="route-mark" aria-label="台中到北九州">
+        <span>RMQ</span><i data-lucide="plane"></i><span>KKJ</span>
+      </div>
+      <h1>9/25 台中直飛北九州</h1>
+      <p>依「不要遊樂園、少自由活動、少自理餐、少購物」重新排序</p>
+      <div class="meta-row">
+        <span><i data-lucide="calendar-days"></i>2026/09/25 出發</span>
+        <span><i data-lucide="clock-3"></i>5 天 4 夜</span>
+        <span><i data-lucide="plane-takeoff"></i>華航 CI7380 / CI7381</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="decision-band" aria-labelledby="decision-title">
+      <div class="section-inner decision-grid">
+        <div class="decision-copy">
+          <p class="eyebrow">目前最符合</p>
+          <h2 id="decision-title">旅遊家 九州神話秘境 5 日</h2>
+          <p>無自由活動、僅 1 餐自理。免稅店與 LaLaport 集中在同一天，整體負擔比其他團低。</p>
+        </div>
+        <dl class="decision-stats">
+          <div><dt>售價</dt><dd>NT$35,900</dd></div>
+          <div><dt>偏好分數</dt><dd>80</dd></div>
+          <div><dt>可售席次</dt><dd>25</dd></div>
+        </dl>
+        <a class="primary-link" href="https://b2b.travelerts.com.tw/EW/GO/GroupDetail.asp?prodCd=FUK05260925A" target="_blank" rel="noreferrer">
+          查看旅行社頁面<i data-lucide="external-link"></i>
+        </a>
+      </div>
+    </section>
+
+    <section class="comparison-section" aria-labelledby="comparison-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">9/25 已確認產品</p>
+            <h2 id="comparison-title">行程比較</h2>
+          </div>
+          <p id="result-count" class="result-count" aria-live="polite"></p>
+        </div>
+
+        <div class="toolbar" aria-label="行程篩選與排序">
+          <div class="segments" role="group" aria-label="推薦分類">
+            <button class="segment is-active" type="button" data-filter="all">全部</button>
+            <button class="segment" type="button" data-filter="fit">符合偏好</button>
+            <button class="segment" type="button" data-filter="exclude">排除／不建議</button>
+          </div>
+          <label class="check-control">
+            <input id="no-free" type="checkbox">
+            <span>只看無自由活動</span>
+          </label>
+          <label class="select-control">
+            <span>排序</span>
+            <select id="sort-select">
+              <option value="score">推薦分數</option>
+              <option value="price-low">價格由低到高</option>
+              <option value="self-meals">自理餐由少到多</option>
+            </select>
+            <i data-lucide="chevron-down"></i>
+          </label>
+        </div>
+
+        <div class="legend" aria-label="標示說明">
+          <span><b class="dot dot--good"></b>符合偏好</span>
+          <span><b class="dot dot--warn"></b>有明顯取捨</span>
+          <span><b class="dot dot--bad"></b>排除</span>
+          <span class="legend-note">Safari Land 為自然動物園，未視為機械遊樂園</span>
+        </div>
+
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th>建議</th><th>旅行社／行程</th><th>售價</th><th>分數</th><th>自由</th><th>自理餐</th><th>購物負擔</th><th><span class="sr-only">操作</span></th>
+              </tr>
+            </thead>
+            <tbody id="trip-table"></tbody>
+          </table>
+        </div>
+        <div id="trip-cards" class="trip-cards"></div>
+      </div>
+    </section>
+
+    <section class="notes-section" aria-labelledby="notes-title">
+      <div class="section-inner notes-grid">
+        <div>
+          <p class="eyebrow">選擇時先確認</p>
+          <h2 id="notes-title">三個關鍵差異</h2>
+        </div>
+        <article><i data-lucide="wallet-cards"></i><h3>同團不同價</h3><p>Safari 團華府為 NT$43,900，富丞同團型為 NT$46,900，價差 NT$3,000。</p></article>
+        <article><i data-lucide="utensils"></i><h3>便宜不等於適合</h3><p>山富 FUK05KJ28 售價較低，但有 4 餐自理及較多購物安排。</p></article>
+        <article><i data-lucide="badge-alert"></i><h3>硬性排除</h3><p>豪斯登堡團含整日主題樂園；FIT 機加酒幾乎全程自由活動。</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-inner footer-inner">
+      <p>資料查核：2026/07/13。售價、席次與成團狀態可能變動，報名前請向旅行社再次確認。封面影像：<a href="https://www.japan.travel/en/spot/615/" target="_blank" rel="noreferrer">JNTO 高千穗峽</a>。</p>
+      <a href="outputs/rmq-kkj-20260925/台中北九州_2026-09-25行程比較.xlsx"><i data-lucide="file-spreadsheet"></i>下載完整 Excel</a>
+    </div>
+  </footer>
+</body>
+</html>
